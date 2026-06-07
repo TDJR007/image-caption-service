@@ -8,3 +8,7 @@ import('@huggingface/transformers').then(({pipeline}) =>
   pipeline('image-to-text', 'Xenova/vit-gpt2-image-captioning', {cache_dir: './models'})
 )"
 ```
+
+## To Build The Image
+
+`docker build -t minimal-api:$(git rev-parse --short HEAD) .`
