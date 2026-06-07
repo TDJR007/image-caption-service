@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { handleCaption } from "../controllers/caption.ts";
+import { handleCaption } from "../controllers/caption.controller.js";
 import multer from "multer";
 
 const router = Router();
