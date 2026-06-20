@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { handleCaption } from "../controllers/caption.controller.js";
+import { Router, Request, Response, NextFunction } from "express";
 import multer from "multer";
+import { generateCaption } from "../services/caption.service.js";
 
 const router = Router();
 
@@ -13,6 +13,22 @@ const upload = multer({
   },
 });
 
-router.post("/caption", upload.single("image"), handleCaption);
+router.post(
+  "/caption",
+  upload.single("image"),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ error: "No image provided" });
+        return;
+      }
+
+      const caption = await generateCaption(req.file.buffer);
+      res.status(200).json({ caption });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export default router;
